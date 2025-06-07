@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Travel Planner App</title>
   <link rel="stylesheet" href="styles/main.css" />
 </head>
@@ -10,11 +10,38 @@
   <header>
     <h1>Travel Planner</h1>
   </header>
-  <main>
-    <section id="search"></section>
-    <section id="itinerary"></section>
-    <section id="weather"></section>
+
+  <main class="container">
+    <!-- Column 1: Search -->
+    <section class="panel" id="searchPanel">
+      <h2>Search</h2>
+      <p class="subtext">(GeoDB Cities API integration)</p>
+      <input type="text" id="destinationInput" placeholder="Enter destination..." />
+      <button id="searchBtn">Search</button>
+      <div id="results" class="card-container">
+        <!-- Location cards will appear here -->
+      </div>
+    </section>
+
+    <!-- Column 2: Itinerary -->
+    <section class="panel" id="itineraryPanel">
+      <h2>Itinerary</h2>
+      <p class="subtext">(Drag-and-drop functionality)</p>
+      <div id="itinerary" class="card-container">
+        <!-- Itinerary items will appear here -->
+      </div>
+    </section>
+
+    <!-- Column 3: Weather -->
+    <section class="panel" id="weatherPanel">
+      <h2>Weather</h2>
+      <p class="subtext">(WeatherAPI.com integration)</p>
+      <div id="weather" class="card-container">
+        <!-- Weather forecast goes here -->
+      </div>
+    </section>
   </main>
+
   <script type="module" src="scripts/ui.js"></script>
 </body>
 </html>
