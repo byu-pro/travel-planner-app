@@ -107,3 +107,25 @@ button:hover {
     max-width: 100%;
   }
 }
+.result[draggable="true"] {
+  cursor: grab;
+}
+
+.card {
+  background-color: #dff0ea;
+  border: 1px solid #aacfc7;
+  padding: 0.75rem;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+#itinerary {
+  min-height: 150px;
+  border: 2px dashed #aaa;
+  background-color: #f9f9f9;
+  padding: 1rem;
+  transition: background-color 0.3s ease;
+}
+#itinerary.dragover {
+  background-color: #e1f7f2;
+  border-color: #2EC4B6;
+}
