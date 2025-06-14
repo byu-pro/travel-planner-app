@@ -129,3 +129,52 @@ button:hover {
   background-color: #e1f7f2;
   border-color: #2EC4B6;
 }
+/* Weather Cards */
+.weather-card {
+  background: #e6f7ff;
+  border: 1px solid #b3e0ff;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 5px;
+}
+
+.weather-card img {
+  width: 40px;
+  height: 40px;
+}
+
+/* Export Button */
+#exportBtn {
+  margin-top: 1rem;
+  width: 100%;
+  background: #011627;
+}
+
+#exportBtn:hover {
+  background: #00111f;
+}
+/* Weather Panel */
+.weather-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.weather-card {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.weather-card img {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto;
+}
+
+.error {
+  color: #dc3545;
+  font-style: italic;
+}

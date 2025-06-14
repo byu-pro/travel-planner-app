@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Travel Planner App</title>
-  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
@@ -12,33 +13,28 @@
   </header>
 
   <main class="container">
-    <!-- Column 1: Search -->
+    <!-- Search Panel -->
     <section class="panel" id="searchPanel">
       <h2>Search</h2>
-      <p class="subtext">(GeoDB Cities API integration)</p>
-      <input type="text" id="destinationInput" placeholder="Enter destination..." />
+      <p class="subtext">(GeoDB Cities API)</p>
+      <input type="text" id="destinationInput" placeholder="Enter city...">
       <button id="searchBtn">Search</button>
-      <div id="results" class="card-container">
-        <!-- Location cards will appear here -->
-      </div>
+      <div id="results" class="card-container"></div>
     </section>
 
-    <!-- Column 2: Itinerary -->
+    <!-- Itinerary Panel -->
     <section class="panel" id="itineraryPanel">
       <h2>Itinerary</h2>
-      <p class="subtext">(Drag-and-drop functionality)</p>
-      <div id="itinerary" class="card-container">
-        <!-- Itinerary items will appear here -->
-      </div>
+      <p class="subtext">(Drag activities here)</p>
+      <div id="itinerary" class="card-container"></div>
+      <button id="exportBtn">Save Itinerary</button>
     </section>
 
-    <!-- Column 3: Weather -->
+    <!-- Weather Panel -->
     <section class="panel" id="weatherPanel">
       <h2>Weather</h2>
-      <p class="subtext">(WeatherAPI.com integration)</p>
-      <div id="weather" class="card-container">
-        <!-- Weather forecast goes here -->
-      </div>
+      <p class="subtext">(5-day forecast)</p>
+      <div id="weather" class="card-container"></div>
     </section>
   </main>
 
