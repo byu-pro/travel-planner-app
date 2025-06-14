@@ -3,38 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Travel Planner App</title>
+  <meta name="description" content="Plan your trips with real-time weather forecasts and destination search">
+  <meta name="keywords" content="travel planner, weather, itinerary, trip organizer">
+  <title>Travel Planner App | Plan Your Perfect Trip</title>
   <link rel="stylesheet" href="styles/main.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header>
+  <header aria-label="Application header">
     <h1>Travel Planner</h1>
   </header>
 
-  <main class="container">
+  <main class="container" aria-label="Main application content">
     <!-- Search Panel -->
-    <section class="panel" id="searchPanel">
-      <h2>Search</h2>
+    <section class="panel" id="searchPanel" aria-labelledby="searchHeading">
+      <h2 id="searchHeading">Search</h2>
       <p class="subtext">(GeoDB Cities API)</p>
-      <input type="text" id="destinationInput" placeholder="Enter city...">
-      <button id="searchBtn">Search</button>
-      <div id="results" class="card-container"></div>
+      <input 
+        type="text" 
+        id="destinationInput" 
+        placeholder="Enter city..." 
+        aria-label="Destination search input"
+      >
+      <button id="searchBtn" aria-label="Search destinations">Search</button>
+      <div id="results" class="card-container" aria-live="polite"></div>
     </section>
 
     <!-- Itinerary Panel -->
-    <section class="panel" id="itineraryPanel">
-      <h2>Itinerary</h2>
+    <section class="panel" id="itineraryPanel" aria-labelledby="itineraryHeading">
+      <h2 id="itineraryHeading">Itinerary</h2>
       <p class="subtext">(Drag activities here)</p>
-      <div id="itinerary" class="card-container"></div>
-      <button id="exportBtn">Save Itinerary</button>
+      <div 
+        id="itinerary" 
+        class="card-container"
+        aria-label="Trip itinerary items"
+        aria-live="polite"
+      ></div>
+      <button id="exportBtn" aria-label="Save itinerary">Save Itinerary</button>
     </section>
 
     <!-- Weather Panel -->
-    <section class="panel" id="weatherPanel">
-      <h2>Weather</h2>
+    <section class="panel" id="weatherPanel" aria-labelledby="weatherHeading">
+      <h2 id="weatherHeading">Weather</h2>
       <p class="subtext">(5-day forecast)</p>
-      <div id="weather" class="card-container"></div>
+      <div id="weather" class="card-container" aria-live="polite"></div>
     </section>
   </main>
 
