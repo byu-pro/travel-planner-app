@@ -246,3 +246,60 @@ fade-out {
   from { opacity: 1; transform: scale(1); }
   to { opacity: 0; transform: scale(0.9); }
 }
+/* Empty itinerary state */
+#itinerary:empty {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="%23aaa" stroke-width="1.5"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: center 30px;
+  background-size: 50px;
+  min-height: 150px;
+}
+
+#itinerary:empty::after {
+  content: "Drag cities here to plan your trip";
+  display: block;
+  text-align: center;
+  margin-top: 100px;
+  color: #aaa;
+  font-style: italic;
+}
+/* Print styles */
+@media print {
+  .delete-btn, #exportBtn, .subtext {
+    display: none !important;
+  }
+  
+  body {
+    background: white;
+    font-size: 12pt;
+  }
+  
+  .panel {
+    break-inside: avoid;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
+  .weather-card {
+    page-break-inside: avoid;
+  }
+}
+/* Loading animation */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 400% 100%;
+  animation: shimmer 1.5s infinite;
+  color: transparent !important;
+  border: none !important;
+}
+
+/* Add to weather loading state */
+#weather.loading .weather-card {
+  height: 80px;
+  margin-bottom: 10px;
+}

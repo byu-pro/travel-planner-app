@@ -8,19 +8,30 @@ import { getForecast } from './weather.js';
 
 document.addEventListener("DOMContentLoaded", initApp);
 
+// Initialize application
 function initApp() {
   const input = document.getElementById("destinationInput");
   const button = document.getElementById("searchBtn");
   const exportBtn = document.getElementById("exportBtn");
   const itineraryContainer = document.getElementById("itinerary");
 
+  // Load saved itinerary
   loadItinerary();
 
+  // Event listeners
   button.addEventListener("click", handleSearch);
   exportBtn.addEventListener("click", () => window.print());
   setupDragAndDrop(itineraryContainer);
+
+  // Autocomplete
+  input.addEventListener("input", debounce(async (e) => {
+    if (e.target.value.trim().length > 2) {
+      await handleSearch();
+    }
+  }, 500));
 }
 
+// Handle city search
 async function handleSearch() {
   const input = document.getElementById("destinationInput");
   const resultsContainer = document.getElementById("results");
@@ -47,6 +58,7 @@ async function handleSearch() {
   }
 }
 
+// Display city results
 function displayCities(cities) {
   const container = document.getElementById("results");
   container.innerHTML = cities.map((city, i) => `
@@ -56,6 +68,7 @@ function displayCities(cities) {
     </div>
   `).join("");
 
+  // Add drag events
   document.querySelectorAll(".result").forEach(el => {
     el.addEventListener("dragstart", (e) => {
       e.dataTransfer.setData("text/plain", el.getAttribute("data-city"));
@@ -63,9 +76,16 @@ function displayCities(cities) {
   });
 }
 
+// Update weather panel
 async function updateWeather(city) {
   const weatherPanel = document.getElementById("weather");
-  weatherPanel.innerHTML = "<p>Loading weather...</p>";
+  weatherPanel.innerHTML = `
+    <div class="weather-grid loading">
+      ${Array(5).fill().map(() => `
+        <div class="weather-card skeleton"></div>
+      `).join('')}
+    </div>
+  `;
 
   try {
     const forecast = await getForecast(`${city.city},${city.country}`);
@@ -93,6 +113,7 @@ async function updateWeather(city) {
   }
 }
 
+// Drag and drop setup
 function setupDragAndDrop(container) {
   container.addEventListener("dragover", (e) => {
     e.preventDefault();
@@ -112,7 +133,13 @@ function setupDragAndDrop(container) {
   });
 }
 
+// Add item to itinerary
 function addToItinerary(city) {
+  if (!city || typeof city !== 'object') {
+    console.error("Invalid city data:", city);
+    return;
+  }
+
   const container = document.getElementById("itinerary");
   const time = prompt("Enter time (e.g., 9:00 AM):") || "Unspecified time";
   
@@ -126,48 +153,90 @@ function addToItinerary(city) {
     <button class="delete-btn" aria-label="Remove activity">×</button>
   `;
   
-  card.querySelector(".delete-btn").addEventListener("click", () => {
-    card.classList.add("fade-out");
-    setTimeout(() => {
-      card.remove();
+  // Edit on double-click
+  card.addEventListener("dblclick", () => {
+    const currentText = card.querySelector("h4").textContent;
+    const newTime = prompt("Edit time:", currentText.split(" - ")[0]);
+    if (newTime) {
+      card.querySelector("h4").textContent = `${newTime} - ${city.city}, ${city.country}`;
       saveItinerary();
-    }, 300);
+    }
+  });
+
+  // Delete with confirmation
+  card.querySelector(".delete-btn").addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (confirm("Remove this activity permanently?")) {
+      card.classList.add("fade-out");
+      setTimeout(() => {
+        card.remove();
+        saveItinerary();
+      }, 300);
+    }
   });
   
   container.appendChild(card);
   saveItinerary();
 }
 
+// Save itinerary to localStorage
 function saveItinerary() {
   const items = Array.from(document.getElementById("itinerary").children)
     .map(card => card.innerHTML);
   localStorage.setItem("itinerary", JSON.stringify(items));
 }
 
+// Load saved itinerary
 function loadItinerary() {
   const saved = JSON.parse(localStorage.getItem("itinerary")) || [];
   const container = document.getElementById("itinerary");
   container.innerHTML = saved.join("");
   
-  // Reattach delete handlers for loaded items
+  // Reattach event listeners to loaded items
   container.querySelectorAll(".card").forEach(card => {
+    // Edit listener
+    card.addEventListener("dblclick", function() {
+      const h4 = this.querySelector("h4");
+      const currentText = h4.textContent;
+      const newTime = prompt("Edit time:", currentText.split(" - ")[0]);
+      if (newTime) {
+        h4.textContent = `${newTime}${currentText.substring(currentText.indexOf(" - "))}`;
+        saveItinerary();
+      }
+    });
+
+    // Delete listener
     const deleteBtn = card.querySelector(".delete-btn");
     if (deleteBtn) {
-      deleteBtn.addEventListener("click", () => {
-        card.classList.add("fade-out");
-        setTimeout(() => {
-          card.remove();
-          saveItinerary();
-        }, 300);
+      deleteBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (confirm("Remove this activity permanently?")) {
+          card.classList.add("fade-out");
+          setTimeout(() => {
+            card.remove();
+            saveItinerary();
+          }, 300);
+        }
       });
     }
   });
 }
 
+// Helper: Show loading state
 function showLoading(container) {
   container.innerHTML = "<p>Searching...</p>";
 }
 
+// Helper: Show error message
 function showError(message, container) {
   container.innerHTML = `<p class="error">${message}</p>`;
+}
+
+// Debounce function for autocomplete
+function debounce(func, wait) {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), wait);
+  };
 }
